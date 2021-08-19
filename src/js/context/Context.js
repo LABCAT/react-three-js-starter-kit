@@ -12,7 +12,7 @@ export const Context = createContext(initialState);
 export const GlobalContextProvider = ({ children }) => {
     const [state, dispatch] = useReducer(Reducer, initialState);
 
-     const updateAudioIsPlaying = (playing) => {
+     const updateIsAudioPlaying = (playing) => {
         dispatch({ type: "UPDATE_AUDIO_STATE", payload: playing });
     }
 
@@ -20,8 +20,7 @@ export const GlobalContextProvider = ({ children }) => {
         dispatch({ type: "UPDATE_NOTES", payload: newNote });
     }
 
-    return 
-    <Context.Provider
+    return <Context.Provider
         value={
             {
                 audioIsPlaying: state.audioIsPlaying,
