@@ -21,7 +21,7 @@ export default function CameraControls(props) {
       ref={controls}
       args={[camera, domElement]}
       autoRotate={audioIsPlaying}
-      enableZoom={false}
+      enableZoom={true}
     />
   );
 };
