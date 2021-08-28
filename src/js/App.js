@@ -6,6 +6,7 @@ export default function App() {
   return (
     <GlobalContextProvider>
       <Scene />
+      <Audio />
     </GlobalContextProvider>
   )
 }
