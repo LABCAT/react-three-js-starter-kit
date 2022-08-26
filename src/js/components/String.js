@@ -19,7 +19,7 @@ export default function String(props) {
             mesh.current.glow = colours[Math.floor(Math.random() * colours.length)];
             addToObjectsArray(mesh.current);
         }, 
-        []
+        [addToObjectsArray]
     );
 
     return (

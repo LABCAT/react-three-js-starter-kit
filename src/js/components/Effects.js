@@ -11,11 +11,11 @@ export default function Effects(props) {
     const { outlines } = props,
         { gl, scene, size, camera } = useThree(),
         composer = useRef(),
-        aspect = useMemo(() => new Vector2(window.innerWidth, window.innerHeight), [size]);
+        aspect = useMemo(() => new Vector2(window.innerWidth, window.innerHeight), []);
   
     useFrame(() => {composer.current.render()}, 1);
 
-    useEffect(() => {composer.current.setSize(window.innerWidth, window.innerHeight)}, [size]);
+    useEffect(() => {composer.current.setSize(window.innerWidth, window.innerHeight)}, []);
 
     return (
         <effectComposer ref={composer} args={[gl]}>

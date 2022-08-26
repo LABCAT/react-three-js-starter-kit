@@ -13,7 +13,6 @@ export default function Scene() {
         addToObjectsArray = (string) => {
           objectsArray.push(string);
         };
-
     return (
         <Canvas camera={camera}>
             <Suspense fallback='loading...'>
@@ -21,10 +20,13 @@ export default function Scene() {
                 <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
                 <pointLight position={[-10, -10, -10]} />
                 <Stars radius={50} saturation={50} fade={true} />
-                <String pos={[0, 0, 0]} colour="yellow" glow="blue" addToObjectsArray={addToObjectsArray} />
-                <String pos={[0, 0, 0]} colour="green" glow="orange" addToObjectsArray={addToObjectsArray} />
-                <Effects outlines={objectsArray} />
-                <CameraControls audioIsPlaying={audioIsPlaying} />
+                 <>
+                    {notes.map((note, index) => (
+                        <String key={index} pos={[note.xPos, note.yPos, note.zPos]} colour={note.colour} addToObjectsArray={addToObjectsArray} />
+                    ))}
+                </>
+                {/* <Effects outlines={objectsArray} /> */}
+                <CameraControls />
             </Suspense>
         </Canvas>
     );
