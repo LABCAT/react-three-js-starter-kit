@@ -12,3 +12,28 @@ body {
     overflow: hidden;
     background-color: black;
 }
+
+#play-button {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 120px;
+  height: 120px;
+  z-index: 1;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+#play-icon {
+  fill: white;
+  opacity: 1;
+  transition: opacity 1s;
+  width: 120px;
+  height: 120px;
+}
+
+#play-icon.fade-out {
+  opacity: 0;
+}

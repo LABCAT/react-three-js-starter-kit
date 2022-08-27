@@ -3,15 +3,16 @@ import "./helpers/Globals";
 import "p5/lib/addons/p5.sound";
 import * as p5 from "p5";
 import { Midi } from '@tonejs/midi'
-// import PlayIcon from './functions/PlayIcon.js';
+import PlayIcon from './functions/PlayIcon.js';
 
 import audio from "../audio/strings-no-2.ogg";
 import midi from "../audio/strings-no-2.mid";
 import { Context } from "./context/Context.js";
 
 const Audio = () => {
+    let animation = null;
     const sketchRef = useRef();
-    const { updateNotes,  updateIsAudioPlaying } = useContext(Context);
+    const { updateNotes, resetNotes, updateIsAudioPlaying } = useContext(Context);
 
     const Sketch = p => {
 
@@ -32,12 +33,10 @@ const Audio = () => {
                 function(result) {
                     console.log(result);
                     const noteSet1 = result.tracks[9].notes; // Sampler 3 - ORCHSTRINGS
-                    console.log(noteSet1);
-
                     p.scheduleCueSet(noteSet1, 'executeCueSet1');
                     p.audioLoaded = true;
                     // document.getElementById("loader").classList.add("loading--complete");
-                    // document.getElementById("play-icon").classList.remove("fade-out");
+                    document.getElementById("play-icon").classList.remove("fade-out");
                 }
             );
             
@@ -80,29 +79,23 @@ const Audio = () => {
             const { currentCue } = note;
             const colours = ['blue', 'orange', 'pink', 'purple'],
                 colour  = colours[Math.floor(Math.random() * colours.length)];
+
+            if(currentCue % 4 === 1){
+                resetNotes();
+            }
+
             updateNotes(
                 {
                     colour: colour,
-                    xPos: currentCue,
-                    yPos: currentCue,
-                    zPos: currentCue
+                    xPos: p.random(-50, 50),
+                    yPos: p.random(-50, 50),
+                    zPos: p.random(-50, 50)
                 }
             )
         }
 
         p.mousePressed = () => {
-            if(p.audioLoaded){
-                if (p.song.isPlaying()) {
-                    p.song.pause();
-                } else {
-                    if (parseInt(p.song.currentTime()) >= parseInt(p.song.buffer.duration)) {
-                        p.reset();
-                    }
-                    // document.getElementById("play-icon").classList.add("fade-out");
-                    p.canvas.addClass("fade-in");
-                    p.song.play();
-                }
-            }
+            
         }
 
         p.creditsLogged = false;
@@ -154,12 +147,35 @@ const Audio = () => {
         }
     };
 
+    const playHandler = () => {
+        console.log(animation);
+        if(animation) {
+            if(animation.audioLoaded){
+                console.log(animation.song);
+                if (animation.song.isPlaying()) {
+                    animation.song.pause();
+                } else {
+                    if (parseInt(animation.song.currentTime()) >= parseInt(animation.song.buffer.duration)) {
+                        animation.reset();
+                    }
+                    // document.getElementById("play-icon").classList.add("fade-out");
+                    animation.canvas.addClass("fade-in");
+                    animation.song.play();
+                }
+            }
+        }
+    }
+
     useEffect(() => {
-        new p5(Sketch, sketchRef.current);
+        animation = new p5(Sketch, sketchRef.current);
     }, []);
+
 
     return (
         <div ref={sketchRef}>
+            <button onClick={playHandler} id="play-button">
+                <PlayIcon  />
+            </button>
         </div>
     );
 };

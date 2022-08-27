@@ -12,6 +12,12 @@ export default function Reducer(state, action) {
                 notes: [...state.notes, action.payload]
             }
         }
+        case "RESET_NOTES": {
+            return {
+                ...state,
+                notes: []
+            }
+        }
         default:
             throw new Error('Action type does not exist!')
     }

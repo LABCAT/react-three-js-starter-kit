@@ -20,6 +20,10 @@ export const GlobalContextProvider = ({ children }) => {
         dispatch({ type: "UPDATE_NOTES", payload: newNote });
     }
 
+    const resetNotes = () => {
+        dispatch({ type: "RESET_NOTES" });
+    }
+
     return <Context.Provider
         value={
             {
@@ -27,7 +31,7 @@ export const GlobalContextProvider = ({ children }) => {
                 updateIsAudioPlaying,
                 notes: state.notes,
                 updateNotes,
-                
+                resetNotes,
             }
         }
     >

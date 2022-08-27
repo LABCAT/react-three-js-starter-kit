@@ -1,33 +1,32 @@
 import React, { useEffect, useRef, useMemo } from "react";
 import { Vector2 } from "three"
+import { EffectComposer, Outline, DepthOfField, Bloom, Noise, Vignette } from '@react-three/postprocessing'
 import { extend, useFrame, useThree } from "@react-three/fiber";
-import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer"
-import { OutlinePass } from "three/examples/jsm/postprocessing/OutlinePass"
+
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass"
 
-extend({ EffectComposer, RenderPass, OutlinePass })
+extend({ RenderPass})
 
 export default function Effects(props) {
     const { outlines } = props,
-        { gl, scene, size, camera } = useThree(),
+         { gl, scene, size, camera } = useThree(),
         composer = useRef(),
         aspect = useMemo(() => new Vector2(window.innerWidth, window.innerHeight), [size]);
-  
-    useEffect(() => {composer.current.setSize(window.innerWidth, window.innerHeight)}, [size]);
-
-    useFrame(() => {composer.current.render()}, 1);
-
 
     return (
-        <>
-        <effectComposer ref={composer} args={[gl]}>
-           <renderPass attachArray="passes" args={[scene, camera]} />
-           {
+        <EffectComposer>
+            {/* <DepthOfField focusDistance={0} focalLength={0.02} bokehScale={2} height={480} />
+            <Bloom luminanceThreshold={0} luminanceSmoothing={0.9} height={300} />
+            <Noise opacity={0.02} />
+            <Vignette eskil={false} offset={0.1} darkness={1.1} /> */}
+            <renderPass attachArray="passes" args={[scene, camera]} />
+            {
                 outlines.map((outline, index) => (
-                    <outlinePass
+                    <Outline
                         key={index}
                         attachArray="passes"
                         args={[aspect, scene, camera]}
+                        // args={[aspect, scene, camera]}
                         visibleEdgeColor={outline.glow}
                         selectedObjects={[outline]}
                         edgeStrength={2.5}
@@ -37,7 +36,6 @@ export default function Effects(props) {
                     />
                 ))
             }
-        </effectComposer> 
-        </>
-    );
-};
+        </EffectComposer>
+    )
+}

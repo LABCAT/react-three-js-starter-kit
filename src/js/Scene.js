@@ -8,7 +8,7 @@ import String from './components/String'
 
 export default function Scene() {
     const { audioIsPlaying, notes  } = useContext(Context),
-        camera = { fov: 75, near: 0.1, far: 1000, position: [0,1,-200] },
+        camera = { fov: 75, near: 0.1, far: 1000, position: [0,1,-300] },
         objectsArray = [],
         addToObjectsArray = (string) => {
           objectsArray.push(string);
@@ -25,7 +25,7 @@ export default function Scene() {
                         <String key={index} pos={[note.xPos, note.yPos, note.zPos]} colour={note.colour} addToObjectsArray={addToObjectsArray} />
                     ))}
                 </>
-                {/* <Effects outlines={objectsArray} /> */}
+                <Effects outlines={objectsArray} />
                 <CameraControls />
             </Suspense>
         </Canvas>
